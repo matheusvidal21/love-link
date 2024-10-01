@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:900&display=swap');
+
+#container {
+  position: absolute;
+  margin: auto;
+  width: 100vw;
+  height: 80pt;
+  top: 0;
+  bottom: 0;
+  filter: url('#threshold') blur(0.6px);
+}
+
+#text1, #text2 {
+  position: absolute;
+  width: 100%;
+  display: inline-block;
+  font-family: 'Raleway', sans-serif;
+  font-size: 80pt;
+  text-align: center;
+  user-select: none;
+}
+
+/* Estilos para o botão */
+.button-container {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.next-button {
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    @apply bg-blue-700;
+  }
+}

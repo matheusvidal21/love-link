@@ -1,0 +1,12 @@
+.container {
+    @apply flex flex-col items-center justify-center min-h-screen p-4 bg-white;
+  
+    .title {
+      @apply text-4xl font-bold mb-4;
+    }
+  
+    .subtitle {
+      @apply text-2xl mb-8;
+    }
+  }
+  
