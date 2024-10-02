@@ -1,7 +1,9 @@
-export default function AppPage() {
+import App from "./_components/app";
+
+export default async function AppPage() {
     return (
         <div>
-            <h1>LOGADO</h1>
+            <App />
         </div>
     )
 }

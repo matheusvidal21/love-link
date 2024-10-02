@@ -1,7 +1,5 @@
-import { AuthForm } from "./_components/auth-form";
+import { RegisterForm } from "./_components/auth-form";
 
-export default function AuthPage() {
-    return (
-        <AuthForm />
-    )
+export default function RegisterPage() {
+   return <RegisterForm />
 }

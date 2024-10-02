@@ -47,6 +47,7 @@ model User {
   sessions      Session[]
  
   @@map("users")
+  Page Page[]
 }
  
 model VerificationToken {
@@ -56,4 +57,30 @@ model VerificationToken {
  
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model Template {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  thumbnail   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  pages Page[]
+}
+
+model Page {
+  id                String   @id @default(cuid())
+  userId            String
+  templateId        String
+  customizationData String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template Template @relation(fields: [templateId], references: [id])
+
+  @@index([userId])
+  @@index([templateId])
 }
