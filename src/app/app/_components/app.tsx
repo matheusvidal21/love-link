@@ -7,9 +7,11 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import AppStyle from '../styles/AppGlobal.module.css'
 import TemplateModel from "@/models/TemplateModel"
 import Image from 'next/image'
+import { Home } from 'lucide-react'
 
 export default function Dashboard() {
   const [templates, setTemplates] = useState<TemplateModel[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     async function fetchTemplates() {
@@ -19,18 +21,27 @@ export default function Dashboard() {
         setTemplates(data)
       } catch {
         console.error('Um erro ocorreu ao buscar os templates.')
+      } finally {
+        setLoading(false)
       }
     }
     fetchTemplates()
   }, [])
 
+
   return (
     <div>
-      {/* Main content */}
-        <h1 className={AppStyle['page-title']}>Bem-vindo ao LoveLink!</h1>
-        <p className="text-lg text-gray-600 mb-8">Escolha um template para começar a criar a sua história de amor</p>
+        <div className='flex items-center space-x-2 mb-6'>
+          <Home className="h-8 w-8 text-red-500" />
+          <h1 className={AppStyle['page-title']}>Bem-vindo ao LoveLink!</h1>
+        </div>
+        <p className={AppStyle['page-subtitle']}>Escolha um template para começar a criar a sua história de amor</p>
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {templates.length > 0 ? (
+          {loading ? (
+            <div className="fixed inset-0 flex justify-center items-center">
+              <div className={AppStyle.loader}></div>
+            </div>
+          ) : (
             templates.map((template) => (
               <Card key={template.id} className="flex flex-col">
                 <CardHeader>
@@ -40,7 +51,6 @@ export default function Dashboard() {
                     width={500}
                     height={200}
                     layout='responsive'
-                    objectFit='cover'
                     className='rounded-lg mb-6'
                   />
                   <CardTitle className="text-xl font-semibold ">{template.name}</CardTitle>
@@ -53,14 +63,11 @@ export default function Dashboard() {
                     <Link href={`/templates/${template.id}`}>Demonstração</Link>
                   </Button>
                   <Button asChild className="bg-red-500 hover:bg-red-600 text-white">
-                    <Link href={`/create/${template.id}`}>Criar</Link>
+                    <Link href={`app/create/${template.id}`}>Criar</Link>
                   </Button>
                 </CardFooter>
               </Card>
-          ))
-          ) : (
-            <p className="text-gray-600">Nenhum template disponível no momento.</p>
-          )}
+            )))}
         </div>
     </div>
   )

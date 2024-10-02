@@ -1,6 +1,26 @@
 .page-title {
     font-size: 1.875rem;
     font-weight: 700;    
-    margin-bottom: 1.5rem; 
     color: #1f2937;  
+}
+
+.page-subtitle {
+  font-size: 1.125rem;  
+  color: #4b5563;       
+  margin-bottom: 2rem;  
+}
+
+.loader {
+  border: 8px solid #f3f3f3; /* Cor do fundo do círculo */
+  border-top: 8px solid red; /* Cor do círculo */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

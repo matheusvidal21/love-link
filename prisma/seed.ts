@@ -18,7 +18,7 @@ async function main() {
       {
         name: "Celebração de aniversário",
         description: "Celebre cada ano juntos com uma página interativa que relembra os melhores momentos e fortalece ainda mais o laço entre vocês.",
-        thumbnail: "/images/anniversary-celebration.jpg",  
+        thumbnail: "/images/birthday-celebration.jpg",  
       },
     ],
   });

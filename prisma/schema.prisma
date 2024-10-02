@@ -71,14 +71,14 @@ model Template {
 }
 
 model Page {
-  id                String   @id @default(cuid())
-  userId            String
-  templateId        String
-  customizationData String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id         String   @id @default(cuid())
+  userId     String
+  templateId String
+  data       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id])
   template Template @relation(fields: [templateId], references: [id])
 
   @@index([userId])

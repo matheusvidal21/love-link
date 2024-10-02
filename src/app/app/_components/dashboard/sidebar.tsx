@@ -1,17 +1,16 @@
 'use client'
 
-import { Heart, Home, FileText, HelpCircle, LogOut, Bell } from 'lucide-react'
-import { Badge } from "@/components/ui/badge"
+import { Heart, Home, FileText, HelpCircle, LogOut } from 'lucide-react'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { signOut } from 'next-auth/react'
 
 export default function Sidebar(){
     const [activeNavItem, setActiveNavItem] = useState('home')
 
     return (
-        <aside className="w-64 bg-white shadow-md">
+        <aside className="w-64 bg-white shadow-md p-5 flex flex-col justify-between h-screen sticky top-3">
+
         <div className="p-4">
           <div className="flex items-center space-x-2 mb-6">
             <Heart className="h-8 w-8 text-red-500" />
@@ -27,14 +26,11 @@ export default function Sidebar(){
             <Link href="/app/help">
             <NavItem icon={<HelpCircle />} label="Ajuda" isActive={activeNavItem === 'support'} onClick={() => setActiveNavItem('support')} />
             </Link>
-            <NavItem icon={<LogOut />} label="Sair" onClick={() => signOut()} isActive={false}/>
           </nav>
         </div>
-        <div className="absolute bottom-4 left-4">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-6 w-6 text-gray-600" />
-            <Badge className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-red-500 text-white text-xs rounded-full">3</Badge>
-          </Button>
+        
+        <div className="p-4">
+          <NavItem icon={<LogOut />} label="Sair" onClick={() => signOut()} isActive={false} />
         </div>
       </aside>
     )

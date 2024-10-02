@@ -12,7 +12,7 @@ export default function FooterLandingPage() {
             <div className="flex space-x-4">
               <Link href="#" className="hover:text-pink-300">Terms de serviço</Link>
               <Link href="#" className="hover:text-pink-300">Política de privacidade</Link>
-              <Link href="/support" className="hover:text-pink-300">Suporte</Link>
+              <Link href="/contact-us" className="hover:text-pink-300">Fale conosco</Link>
             </div>
           </div>
           <div className="mt-4 text-center text-gray-400 text-sm">

@@ -13,7 +13,7 @@ interface FormValues {
     email: string;
 }
 
-export function RegisterForm() {
+export function AuthForm() {
     const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
     const [loading, setLoading] = useState(false);
 
