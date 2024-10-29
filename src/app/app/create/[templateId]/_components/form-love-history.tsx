@@ -15,7 +15,9 @@ import { useState, useEffect } from 'react'
 import { Combobox } from '@headlessui/react'
 import { useDebounce } from 'use-debounce'
 import { Loader } from 'lucide-react'
-
+import { loadStripe } from '@stripe/stripe-js';
+import { TemplateKey } from '@/types/templates-keys'
+import { config } from '@/config'
 
 type FormValues = {
   yourName: string
@@ -54,22 +56,23 @@ export default function FormLoveHistory() {
   };
   
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingQuery, setIsLoadingQuery] = useState(false)
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
 
   useEffect(() => {
     if (debouncedQuery.length > 2) {
-      setIsLoading(true)
+      setIsLoadingQuery(true)
       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(debouncedQuery)}&addressdetails=1&limit=4`
       console.log(url)
       fetch(url)
         .then(response => response.json())
         .then(data => {
           setSuggestions(data)
-          setIsLoading(false)
+          setIsLoadingQuery(false)
         })
         .catch(error => {
           console.error('Erro ao buscar endereços:', error)
-          setIsLoading(false)
+          setIsLoadingQuery(false)
         })
     } else {
       setSuggestions([])
@@ -77,7 +80,44 @@ export default function FormLoveHistory() {
   }, [debouncedQuery])
 
   const onSubmit = (data: FormValues) => {
+    setIsLoadingButton(true)
     console.log(data)
+
+    const handleBuyNow = async (templateKey: string) => {
+      const cancelUrl = window.location.href; 
+      try {
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            { 
+              templateKey,
+              cancelUrl
+            }),
+        });
+      
+        const { sessionId, error } = await response.json();
+      
+        if (error) {
+          console.error('Error creating checkout session:', error);
+          setIsLoadingButton(false)
+          return;
+        }
+      
+        const stripe = await loadStripe(config.stripe.publishableKey!);
+        await stripe?.redirectToCheckout({ sessionId });
+
+      } catch (error) {
+        console.error('Error redirecting to checkout:', error);
+      } finally {
+        setIsLoadingButton(false); // Reseta o carregamento após o processo
+      }
+
+    }
+
+    handleBuyNow(TemplateKey.LOVE_HISTORY)
   }
 
   return (
@@ -152,7 +192,7 @@ export default function FormLoveHistory() {
                         className="w-full"
                         placeholder="Digite um local"
                       />
-                      {isLoading && (
+                      {isLoadingQuery && (
                         <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                           <Loader className="h-5 w-5 animate-spin" />
                         </div>
@@ -297,9 +337,14 @@ export default function FormLoveHistory() {
             {errors.finalMessage && <p className="text-red-500 text-sm">{errors.finalMessage.message}</p>}
           </CardContent>
         </Card>
-
         <Button type="submit" className="w-full bg-red-600 hover:bg-red-500 text-white">
-          Criar página personalizada
+          {isLoadingButton ? (
+            <div className="flex justify-center items-center">
+              <Loader className="h-5 w-5 animate-spin" />
+            </div>
+          ) : (
+            "Criar página personalizada"
+          )}
         </Button>
       </form>
     </div>

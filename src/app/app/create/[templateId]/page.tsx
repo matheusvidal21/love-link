@@ -7,12 +7,7 @@ import FormLoveDeclaration from './_components/form-love-declaration';
 import FormBirthdayCelebration from './_components/form-birthday-celebration';
 import AppStyle from '../../styles/AppGlobal.module.css'
 import { useParams } from 'next/navigation';
-
-enum TemplateType {
-    LOVE_HISTORY = 'História do casal',
-    LOVE_DECLARATION = 'Declaração de amor',
-    BIRTHDAY_CELEBRATION = 'Celebração de aniversário',
-}
+import { TemplateType } from '../../../../types/templates-types';
 
 export default function FormTemplate() {
     const { templateId } = useParams()

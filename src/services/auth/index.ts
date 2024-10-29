@@ -1,7 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { prisma } from "@/lib/prisma"
+import { prisma } from "@/services/prisma"
 import { getServerSession } from "next-auth";
 import nodemailer from "nodemailer";
 

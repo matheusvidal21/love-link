@@ -20,6 +20,7 @@
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
+    "@stripe/stripe-js": "^4.9.0",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -35,10 +36,12 @@
     "react-hook-form": "^7.53.0",
     "react-leaflet": "^4.2.1",
     "sass": "^1.79.4",
+    "stripe": "^17.2.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "use-debounce": "^10.0.3",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -47,6 +50,7 @@
     "@types/nodemailer": "^6.4.16",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
+    "@types/stripe-v3": "^3.1.33",
     "@types/uuid": "^10.0.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.13",
