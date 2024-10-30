@@ -17,7 +17,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: 'Love Link',
-  description: '',
+  description: 'Eternize a sua história de amor com Love Link. Crie uma página interativa e personalizada que celebre a sua jornada de amor.'
 }
 
 export default function RootLayout({

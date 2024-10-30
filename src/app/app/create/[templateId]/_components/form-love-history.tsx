@@ -79,45 +79,73 @@ export default function FormLoveHistory() {
     }
   }, [debouncedQuery])
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     setIsLoadingButton(true)
     console.log(data)
+    try {
+      const url = new URL(window.location.href)
+      const templateId = url.pathname.split('/').pop()
+      
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          templateId: templateId,
+          formData: data,
+        }),
+      })
 
-    const handleBuyNow = async (templateKey: string) => {
-      const cancelUrl = window.location.href; 
-      try {
-        const response = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(
-            { 
-              templateKey,
-              cancelUrl
-            }),
-        });
-      
-        const { sessionId, error } = await response.json();
-      
-        if (error) {
-          console.error('Error creating checkout session:', error);
-          setIsLoadingButton(false)
-          return;
-        }
-      
-        const stripe = await loadStripe(config.stripe.publishableKey!);
-        await stripe?.redirectToCheckout({ sessionId });
+      const { orderId, error } = await response.json()
 
-      } catch (error) {
-        console.error('Error redirecting to checkout:', error);
-      } finally {
-        setIsLoadingButton(false); // Reseta o carregamento após o processo
+      if (error) {
+        console.error('Error creating order:', error)
+        setIsLoadingButton(false)
+        return
       }
 
+      await handleBuyNow(TemplateKey.LOVE_HISTORY, orderId)
+    } catch (error) {
+      console.error('Error creating order:', error)
+      setIsLoadingButton(false)
     }
+  }
 
-    handleBuyNow(TemplateKey.LOVE_HISTORY)
+  const handleBuyNow = async (templateKey: string, orderId: string) => {
+    const cancelUrl = window.location.href;
+    try {
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(
+          { 
+            orderId,
+            templateKey,
+            cancelUrl
+          }),
+      });
+    
+      const { sessionId, error } = await response.json()
+    
+      if (error) {
+        console.error('Error creating checkout session:', error)
+        setIsLoadingButton(false)
+        return
+      }
+    
+      const stripe = await loadStripe(config.stripe.publishableKey!)
+      await stripe?.redirectToCheckout({ sessionId })
+
+    } catch (error) {
+      console.error('Error redirecting to checkout:', error)
+      setIsLoadingButton(false)
+    } finally {
+      setIsLoadingButton(false)
+    }
   }
 
   return (
@@ -350,3 +378,4 @@ export default function FormLoveHistory() {
     </div>
   )
 }
+

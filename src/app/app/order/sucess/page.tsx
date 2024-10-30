@@ -1,4 +1,4 @@
-import Sucess from "./_components/cancel";
+import Sucess from "./_components/sucess";
 
 export default function SucessPage() {
     return (

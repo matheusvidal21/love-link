@@ -1,5 +1,5 @@
 import Main from './_components/dashboard/main';
-import Sidebar from './_components/dashboard/sidebar'; // Importa a sidebar para uso
+import Sidebar from './_components/dashboard/sidebar'; 
 
 export default function AppLayout({
   children,
